@@ -3,25 +3,25 @@
 
 # bbb-install
 
-To help you set up a BigBlueButton server 2.3 server (or upgrade from an earlier version of 2.3), `bbb-install.sh` is a shell script that automates the installation/upgrade steps  (view the [source](https://github.com/bigbluebutton/bbb-install/blob/master/bbb-install.sh) to see all the details).   Depending on your server's internet connection, `bbb-install.sh` can fully install and configure your BigBlueButton server for production in under 30 minutes.
+Untuk menyiapkan server BigBlueButton server 2.3 (atau upgrade dari versi 2.3 sebelumnya), `bbb-install.sh` adalah skrip shell yang mengotomatiskan langkah-langkah penginstalan/upgrade (lihat [source](https://github.com/bigbluebutton/bbb-install/blob/master/bbb-install.sh) untuk melihat semua detailnya). Tergantung pada koneksi internet server, `bbb-install.sh` dapat sepenuhnya menginstal dan mengkonfigurasi server BigBlueButton untuk produksi dalam waktu kurang dari 30 menit.
 
-For example, to install the latest build of BigBlueButton 2.3 on a new 64-bit Ubuntu 18.04 server with a public IP address, a hostname (such as `bbb.example.com`) that resolves to the public IP address, and an email address (such as `info@example.com`), log into your new server via SSH and run the following command as root.
+Misalnya, untuk menginstal versi terbaru BigBlueButton 2.3 pada server 64-bit Ubuntu 18.04 baru dengan alamat IP publik, nama host (seperti `bbb.example.com`) yang ditetapkan ke alamat IP publik, dan alamat email (seperti `info@example.com`), masuk ke server melalui SSH dan jalankan perintah berikut sebagai root.
 
 ~~~
 wget -qO- https://ubuntu.bigbluebutton.org/bbb-install.sh | bash -s -- -w -a -v bionic-23 -s bbb.example.com -e info@example.com
 ~~~
 
-This command pulls down the latest version of `bbb-install.sh`, sends it to the Bash shell interpreter, and installs BigBlueButton using the parameters provided:
+Perintah ini menarik versi terbaru `bbb-install.sh`, mengirimkannya ke penerjemah Bash shell, dan menginstal BigBlueButton menggunakan parameter yang disediakan:
 
-  * `-w` installs the uncomplicated firewall (UFW) to restrict access to TCP/IP ports 22, 80, and 443, and UDP ports in range 16384-32768,
-  * `-a` installs the API demos (making it easy to do a few quick tests on the server), 
-  * `-v bionic-23` installs the latest build of BigBlueButton 2.3.x, 
-  * `-s` sets the server's hostname to be `bbb.example.com`, and
-  * `-e` provides an email address for Let's Encrypt to generate a valid SSL certificate for the host.
+  * `-w` menginstal uncomplicated firewall (UFW) untuk membatasi akses ke port TCP/IP 22, 80, dan 443, dan port UDP dalam range 16384-32768,
+  * `-a` menginstal demo API (memudahkan untuk melakukan beberapa tes cepat di server), 
+  * `-v bionic-23` menginstal versi terbaru BigBlueButton 2.3.x, 
+  * `-s` menetapkan nama host server menjadi `bbb.example.com`, dan
+  * `-e` memberikan alamat email untuk Let's Encrypt untuk menghasilkan sertifikat SSL yang valid untuk host.
 
-Note: If your server is also behind an external firewall -- such as behind a corporate firewall or behind an AWS Security Group -- you will need to manually configure the external firewall to forward [specific internet connections](#configuring-the-external-firewall) to the BigBlueButton server before you can launch the client.
+Catatan: Jika server berada di belakang firewall eksternal -- seperti di belakang firewall perusahaan atau di belakang AWS Security Group -- Anda perlu mengonfigurasi firewall eksternal secara manual untuk meneruskan koneksi internet tertentu ke server BigBlueButton sebelum dapat meluncurkan ke klien.
 
-When the above command finishes, you'll see a message that gives you a test URL to launch the BigBlueButton client and join a meeting called 'Demo Meeting'.  
+Saat perintah di atas selesai, akan melihat pesan yang memberi URL uji untuk meluncurkan klien BigBlueButton dan bergabung dengan rapat yang disebut 'Demo Meeting'
 
 ~~~
 # Warning: The API demos are installed and accessible from:
@@ -39,33 +39,33 @@ When the above command finishes, you'll see a message that gives you a test URL 
 #    sudo apt-get purge bbb-demo  
 ~~~
 
-Open the URL in either Chrome or FireFox (recommended browsers).  You should see a login to join the meeting 'Demo Meeting'.
+Buka URL di Chrome atau FireFox (browser yang disarankan). Akan melihat login untuk bergabung dengan rapat 'Demo Meeting'.
 
 ![bbb-install.sh](images/html5-join.png?raw=true "HTML5 Page")
 
-Enter your name and click 'Join'.  The BigBlueButton client should then load in your browser and prompt you to join the audio.
+Masukkan nama dan klik 'Gabung'. Klien BigBlueButton kemudian akan dimuat di browser dan meminta untuk bergabung dengan audio.
 
 ![bbb-install.sh](images/html5.png?raw=true "HTML5 Client")
 
-Note the web pages are served via HTTPS.  The browsers now require this before allowing access to your webcam, microphone, or screen (for screen sharing) using the browser's built-in real-time communications (WebRTC) libraries.  If you try to install BigBlueButton without specifying the `-s` and `-e` parameters, the client will not load.
+Perhatikan halaman web dilayani melalui HTTPS. Browser sekarang memerlukan ini sebelum mengizinkan akses ke webcam, mikrofon, atau layar Anda (untuk berbagi layar) menggunakan komunikasi real-time (WebRTC) bawaan browser. Jika Anda mencoba menginstal BigBlueButton tanpa menentukan parameter `-s` dan `-e`, klien tidak akan memuat.
 
-The hostname `bbb.example.com` and email address `info@example.com` are just sample parameters.  The following sections walk you through the details on using `bbb-install.sh` to setup/upgrade your BigBlueButton server.
+Nama host `bbb.example.com` dan alamat email `info@example.com` hanyalah contoh parameter. Bagian berikut memandu Anda melalui detail tentang penggunaan `bbb-install.sh` untuk menyiapkan/mengupgrade server BigBlueButton.
 
-After testing, you can remove the api demos with the command `sudo apt-get purge bbb-demo`.  Later on, you can upgrade the server to the latest release of BigBlueButton 2.3 by re-running the same `bbb-install.sh` command, and omit the `-a` to install the API demos.
+Setelah pengujian, dapat menghapus demo api dengan perintah `sudo apt-get purge bbb-demo`.  Kemudian, Anda dapat meningkatkan server ke rilis terbaru BigBlueButton 2.3 dengan menjalankan kembali perintah `bbb-install.sh`, dan menghilangkan `-a` untuk menginstal API demos.
 
-The following sections go through in more detail setting up a new BigBlueButton 2.3 server.
+Bagian berikut membahas lebih detail pengaturan baru server BigBlueButton 2.3.
 
-## Getting ready
+## Persiapan
 
-Before running `bbb-install.sh`, you need to
+Sebelum menjalankan `bbb-install.sh`, kamu butuh
 
-  * read through all the documentation in this page,
-  * ensure that your server meets the [minimal server requirements](http://docs.bigbluebutton.org/install/install.html#minimum-server-requirements), and
-  * configure a fully qualified domain name (FQDN), such as `bbb.example.com`, that resolves to the external IP address of your server.
+  * baca semua dokumentasi,
+  * memastikan bahwa server memenuhi [minimal server requirements](http://docs.bigbluebutton.org/install/install.html#minimum-server-requirements), dan
+  * konfigurasikan fully qualified domain name (FQDN), seperti `bbb.example.com`, yang resolves ke alamat IP eksternal server.
 
-To set up your FQDN, purchase a domain name from a domain name registrar and web hosting provider, such as [GoDaddy](https://godaddy.com) or [Network Solutions](https://networksolutions.com).  Once purchased, follow the steps indicated by your provider to create an `A Record` for your FQDN that resolves to the public IP address of your server.  (Check the provider's documentation for details on how to set up the `A Record`.)
+Untuk menyiapkan FQDN, beli domain name dari domain name registrar dan penyedia hosting web, seperti [GoDaddy](https://godaddy.com) atau [Network Solutions](https://networksolutions.com).  Setelah dibeli, ikuti langkah-langkah yang ditunjukkan oleh penyedia untuk membuat `A Record` untuk FQDN resolves ke alamat IP publik server Anda. (Periksa dokumentasi penyedia untuk detail tentang cara menyiapkan `A Record`.)
 
-With your FQDN in place, you can then pass a few additional parameters to `bbb-install.sh` to have it:
+Dengan FQDN di tempat, kamu kemudian dapat meneruskan beberapa parameter tambahan ke `bbb-install.sh` untuk memilikinya:
 
   * request and install a 4096-bit TLS/SSL certificate from Let's Encrypt (we love Let's Encrypt),
   * install a firewall to restrict access to only the needed ports (recommended),
