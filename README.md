@@ -67,16 +67,16 @@ Untuk menyiapkan FQDN, beli domain name dari domain name registrar dan penyedia 
 
 Dengan FQDN di tempat, kamu kemudian dapat meneruskan beberapa parameter tambahan ke `bbb-install.sh` untuk memilikinya:
 
-  * request and install a 4096-bit TLS/SSL certificate from Let's Encrypt (we love Let's Encrypt),
-  * install a firewall to restrict access to only the needed ports (recommended),
-  * install and configure [Greenlight](http://docs.bigbluebutton.org/greenlight/gl-overview.html) to provide a simple front-end for users to enable them to set up rooms, hold online sessions, and manage recordings (optional).  
+  * meminta dan menginstal sertifikat 4096-bit TLS/SSL dari Let's Encrypt (we love Let's Encrypt),
+  * instal firewall untuk membatasi akses hanya ke port yang diperlukan (recommended),
+  * instal dan konfigurasikan [Greenlight](http://docs.bigbluebutton.org/greenlight/gl-overview.html) untuk menyediakan tampilan depan yang sederhana bagi pengguna untuk memungkinkan mereka mengatur rooms, hold online sessions, dan manage recordings (optional).  
 
-If you install Greenlight, you'll have the ability to be the [Greenlight administrator](http://docs.bigbluebutton.org/greenlight/gl-admin.html), giving you the ability manage user accounts.
+Jika menginstal Greenlight, akan memiliki kemampuan untuk menjadi administrator [Greenlight administrator](http://docs.bigbluebutton.org/greenlight/gl-admin.html), memberi kemampuan mengelola akun pengguna.
 
-The full source code for `bbb-install.sh` is [here](https://github.com/bigbluebutton/bbb-install).  To make it easy for anyone to run the script with a single command, we host the latest version of the script at [https://ubuntu.bigbluebutton.org/bbb-install.sh](https://ubuntu.bigbluebutton.org/bbb-install.sh).
+Kode sumber lengkap untuk `bbb-install.sh` ada [disini](https://github.com/bigbluebutton/bbb-install).  Untuk memudahkan siapa saja menjalankan skrip dengan satu perintah, kami meng-host skrip versi terbaru di [https://ubuntu.bigbluebutton.org/bbb-install.sh](https://ubuntu.bigbluebutton.org/bbb-install.sh).
 
 
-### Server choices
+### Pilihan server
 
 There are many hosting companies that can provide you with dedicated virtual and bare-metal servers to run BigBlueButton.  We list a few popular choices below (we are not making any recommendation here, just listing some of the more popular choices).
 
